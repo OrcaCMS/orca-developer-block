@@ -1,0 +1,34 @@
+{
+  "name": "Domain Search",
+  "category": "Developer",
+  "description": "Validate a domain and look it up via a named Orca action or your own HTTPS API.",
+  "fields": [
+    {
+      "name": "heading",
+      "type": "heading",
+      "label": "Heading",
+      "defaultValue": "Enter the domain name and see the results"
+    },
+    {
+      "name": "subtitle",
+      "type": "text",
+      "label": "Subtitle",
+      "defaultValue": "Want to check availability or ownership? Type a domain below."
+    },
+    {
+      "name": "tip",
+      "type": "text",
+      "label": "Tip",
+      "defaultValue": "Tip: try example.com or any registered domain."
+    }
+  ],
+  "ui": {
+    "groups": [
+      {
+        "id": "content",
+        "label": "Content",
+        "fields": ["heading", "subtitle", "tip"]
+      }
+    ]
+  }
+}

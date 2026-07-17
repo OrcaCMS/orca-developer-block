@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "name": "Domain Search",
+  "entry": "src/index.tsx",
+  "runtime": "react",
+  "sdkVersion": "1",
+  "permissions": [
+    "layout:resize",
+    "context:theme",
+    "context:locale",
+    "actions:execute",
+    "analytics:emit",
+    "storage:instance"
+  ],
+  "network": [],
+  "actions": ["domain-whois"]
+}

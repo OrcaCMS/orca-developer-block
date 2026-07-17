@@ -1,0 +1,77 @@
+.odb-root {
+  box-sizing: border-box;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: #111827;
+}
+
+.odb-heading {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.odb-subtitle {
+  margin: 0 0 1.25rem;
+  color: #6b7280;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.odb-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.odb-input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.7rem 0.85rem;
+  font-size: 1rem;
+}
+
+.odb-input:focus {
+  outline: 2px solid #0f766e;
+  outline-offset: 1px;
+}
+
+.odb-button {
+  border: 0;
+  border-radius: 0.5rem;
+  padding: 0.7rem 1.1rem;
+  background: #dc2626;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.odb-button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.odb-tip {
+  margin: 0.65rem 0 0;
+  color: #9ca3af;
+  font-size: 0.8rem;
+}
+
+.odb-error {
+  margin: 0.75rem 0 0;
+  color: #b91c1c;
+  font-size: 0.9rem;
+}
+
+.odb-result {
+  margin: 1rem 0 0;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background: #f3f4f6;
+  font-size: 0.75rem;
+  overflow: auto;
+}
