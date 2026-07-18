@@ -6,9 +6,14 @@ type Pending = {
 export type OrcaBridgeClient = {
   call: (method: string, params?: unknown) => Promise<unknown>
   destroy: () => void
+  whenReady: () => Promise<void>
 }
 
-/** Used inside Orca’s sandboxed iframe — talks to the parent via MessageChannel. */
+/**
+ * Client-side bridge used inside the sandboxed iframe.
+ * Expects parent to complete MessageChannel handshake after READY.
+ * Calls made before the port arrives are queued (avoids setHeight race).
+ */
 export function connectOrcaBridge(params: {
   nonce: string
   instanceId: string
@@ -16,6 +21,16 @@ export function connectOrcaBridge(params: {
   const pending = new Map<string, Pending>()
   let port: MessagePort | null = null
   let reqId = 0
+  let readyResolve: (() => void) | null = null
+  const readyPromise = new Promise<void>((resolve) => {
+    readyResolve = resolve
+  })
+  const callWaiters: Array<() => void> = []
+
+  const flushWaiters = () => {
+    const list = callWaiters.splice(0, callWaiters.length)
+    for (const w of list) w()
+  }
 
   const onWindowMessage = (event: MessageEvent) => {
     const data = event.data
@@ -34,6 +49,9 @@ export function connectOrcaBridge(params: {
       else p.reject(new Error(msg.error || "Bridge error"))
     }
     port.start()
+    readyResolve?.()
+    readyResolve = null
+    flushWaiters()
   }
 
   window.addEventListener("message", onWindowMessage)
@@ -47,34 +65,44 @@ export function connectOrcaBridge(params: {
     "*",
   )
 
-  return {
-    call(method, callParams) {
-      return new Promise((resolve, reject) => {
-        if (!port) {
-          reject(new Error("Orca bridge not connected"))
-          return
-        }
-        const id = `r${++reqId}`
-        pending.set(id, { resolve, reject })
-        port.postMessage({
-          type: "orca-devblock-req",
-          id,
-          method,
-          params: callParams,
-        })
-        setTimeout(() => {
-          if (pending.has(id)) {
-            pending.delete(id)
-            reject(new Error(`Bridge timeout: ${method}`))
-          }
-        }, 15_000)
+  function whenPort(): Promise<MessagePort> {
+    if (port) return Promise.resolve(port)
+    return new Promise((resolve) => {
+      callWaiters.push(() => {
+        if (port) resolve(port)
       })
+    })
+  }
+
+  return {
+    whenReady: () => readyPromise,
+    call(method, callParams) {
+      return whenPort().then(
+        (p) =>
+          new Promise((resolve, reject) => {
+            const id = `r${++reqId}`
+            pending.set(id, { resolve, reject })
+            p.postMessage({
+              type: "orca-devblock-req",
+              id,
+              method,
+              params: callParams,
+            })
+            setTimeout(() => {
+              if (pending.has(id)) {
+                pending.delete(id)
+                reject(new Error(`Bridge timeout: ${method}`))
+              }
+            }, 15_000)
+          }),
+      )
     },
     destroy() {
       window.removeEventListener("message", onWindowMessage)
       port?.close()
       port = null
       pending.clear()
+      callWaiters.splice(0, callWaiters.length)
     },
   }
 }
