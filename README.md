@@ -2,12 +2,15 @@
 
 Starter for **OrcaCMS Developer Blocks** — stateful React micro-apps that run in a sandboxed iframe on customer sites.
 
+Official org: [github.com/OrcaCMS](https://github.com/OrcaCMS)  
+This repo: [github.com/OrcaCMS/orca-developer-block](https://github.com/OrcaCMS/orca-developer-block)
+
 Clone this repo, edit the block, pack a ZIP, upload in **Developer Block Lab**.
 
 ## Quick start
 
 ```bash
-git clone https://github.com/<your-org>/orca-developer-block.git
+git clone https://github.com/OrcaCMS/orca-developer-block.git
 cd orca-developer-block
 pnpm install   # or npm install / yarn
 pnpm dev       # http://localhost:5177 — local preview with mock Orca bridge
@@ -85,22 +88,12 @@ Orca’s compiler only allows:
 
 No `package.json` scripts, no `node_modules` in the upload, no Node APIs (`fs`, etc.).
 
-## Publishing this template on GitHub
+## Use as a GitHub template
 
-From the Orca monorepo (or after copying this folder elsewhere):
+This repository is meant to be a **template** under the OrcaCMS org:
 
-```bash
-# Option A — new repo from this folder
-cd templates/orca-developer-block
-git init
-git add .
-git commit -m "Initial Orca developer block template"
-gh repo create orca-developer-block --public --source=. --remote=origin --push
-
-# Option B — copy files into an empty clone, then push
-```
-
-Then in GitHub → **Settings → General → Template repository** → enable so users can click **Use this template**.
+1. Repo settings → **Template repository** → enable  
+2. Users click **Use this template** (or `git clone`)
 
 Suggested topics: `orcacms`, `react`, `developer-blocks`.
 
@@ -111,11 +104,11 @@ Suggested topics: `orcacms`, `react`, `developer-blocks`.
 - [ ] No `node_modules` / lockfiles in the ZIP (`pnpm zip` excludes them)
 - [ ] Permissions match what you call (`actions:execute`, `layout:resize`, …)
 - [ ] Named actions configured in Orca if you use `orca.actions.execute`
-- [ ] Workspace plan has `max_developer_blocks` &gt; 0
+- [ ] Workspace plan has `max_developer_blocks` > 0
 
 ## Docs
 
-See Orca monorepo: [`docs/developer-blocks.md`](../../docs/developer-blocks.md) (architecture, env, trust model).
+Platform architecture (Orca monorepo): [developer-blocks.md](https://github.com/OrcaCMS) — see the private `orca-admin` docs when contributing to the product.
 
 ## License
 
