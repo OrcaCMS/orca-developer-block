@@ -65,7 +65,8 @@ export default defineBlock({
         setError(e instanceof Error ? e.message : String(e))
       } finally {
         setLoading(false)
-        void orca.setHeight(document.documentElement.scrollHeight)
+        // Height updates via OrcaBridgeProvider ResizeObserver — avoid
+        // documentElement.scrollHeight (cannot shrink inside iframes).
       }
     }
 
