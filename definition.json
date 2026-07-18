@@ -1,25 +1,31 @@
 {
-  "name": "Domain Search",
+  "name": "My Block",
   "category": "Developer",
-  "description": "Validate a domain and look it up via a named Orca action or your own HTTPS API.",
+  "description": "Starter developer block — edit props, UI, and API calls to build your own.",
   "fields": [
     {
       "name": "heading",
       "type": "heading",
       "label": "Heading",
-      "defaultValue": "Enter the domain name and see the results"
+      "defaultValue": "Hello from your developer block"
     },
     {
-      "name": "subtitle",
-      "type": "text",
-      "label": "Subtitle",
-      "defaultValue": "Want to check availability or ownership? Type a domain below."
+      "name": "body",
+      "type": "paragraph",
+      "label": "Body",
+      "defaultValue": "Edit src/index.tsx, pack with pnpm zip, then upload in Developer Block Lab."
     },
     {
-      "name": "tip",
-      "type": "text",
-      "label": "Tip",
-      "defaultValue": "Tip: try example.com or any registered domain."
+      "name": "image",
+      "type": "media",
+      "label": "Image",
+      "defaultValue": null
+    },
+    {
+      "name": "ctaLabel",
+      "type": "button",
+      "label": "Button",
+      "defaultValue": "Call API"
     }
   ],
   "ui": {
@@ -27,7 +33,7 @@
       {
         "id": "content",
         "label": "Content",
-        "fields": ["heading", "subtitle", "tip"]
+        "fields": ["heading", "body", "image", "ctaLabel"]
       }
     ]
   }

@@ -4,8 +4,9 @@ Guidance for AI coding agents working in this template.
 
 ## What this package is
 
-A **site-scoped** OrcaCMS Developer Block: a React micro-app uploaded as a ZIP, compiled by Orca, and rendered in a sandboxed iframe (`sandbox="allow-scripts"` only).
+A **generic starter** for site-scoped OrcaCMS Developer Blocks: React micro-apps uploaded as a ZIP, compiled by Orca, and rendered in a sandboxed iframe (`sandbox="allow-scripts"` only).
 
+- Not a product demo — replace `src/index.tsx` props/UI/API calls with the user’s block
 - Block type ids look like `devblock:{uuid}`
 - Each upload belongs to **one site** (not the whole workspace)
 - To reuse on another site: download/keep the ZIP → open that site → Developer Block Lab → upload again
@@ -63,12 +64,18 @@ Keep the block root **transparent**. The artifact shell already sets `html, body
 
 - Public `fetch`: list HTTPS origins in `network[]` (CSP `connect-src`)
 - Secrets: declare named `actions` + `actions:execute`, configure URL/secret in **Site Settings → Dev block APIs**, call `orca.actions.execute(key, input)`
+- Starter uses action key `my-api` — rename in `orca-block.json`, `src/index.tsx`, and preview mocks
 
 Actions and blocks are both site-scoped.
 
 ## Studio field props
 
-Heading/paragraph fields often arrive as objects (`{ text, tag, … }`). Prefer `asText(value)` from `@orca/blocks`.
+Supported `defineBlock` prop types: `heading`, `paragraph`, `string`, `text`, `number`, `boolean`, `media`, `button`.
+
+Prefer `paragraph` (not `text`) for body/subtitle copy. Heading/paragraph values may arrive as objects (`{ text, tag, … }`) — always render with `asText(value)` from `@orca/blocks`.
+
+- `media`: object with `imageSrc` / `url` (+ `alt`) so site editors can swap files in Studio
+- `button`: Studio has a full button editor; the iframe host currently coerces to the **label string** only
 
 ## Do not bake fonts into the ZIP
 

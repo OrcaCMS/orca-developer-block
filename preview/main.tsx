@@ -36,18 +36,12 @@ createRoot(document.getElementById("root")!).render(
       </p>
       <PreviewOrcaProvider
         mockActions={{
-          "domain-whois": async (input) => {
-            const domain =
-              input && typeof input === "object" && "domain" in input
-                ? String((input as { domain: unknown }).domain)
-                : ""
-            return {
-              domain,
-              available: !domain.endsWith(".com"),
-              registrar: "Mock Registrar",
-              note: "Replace this mock by configuring the domain-whois action in Orca.",
-            }
-          },
+          "my-api": async (input) => ({
+            ok: true,
+            mock: true,
+            input,
+            message: "Mock response. Configure the my-api action in Orca Site Settings → Dev block APIs.",
+          }),
         }}
       >
         <Block {...props} />

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "name": "Domain Search",
+  "name": "My Block",
   "entry": "src/index.tsx",
   "runtime": "react",
   "sdkVersion": "1",
@@ -13,5 +13,5 @@
     "storage:instance"
   ],
   "network": [],
-  "actions": ["domain-whois"]
+  "actions": ["my-api"]
 }

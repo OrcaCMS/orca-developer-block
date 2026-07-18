@@ -3,3 +3,4 @@ export type { DefineBlockConfig, BlockPropSpec, DefinedBlock } from "./define-bl
 export { useOrca, OrcaBridgeProvider, PreviewOrcaProvider } from "./use-orca"
 export type { OrcaBridgeApi, OrcaFontsPayload } from "./use-orca"
 export { connectOrcaBridge } from "./bridge-client"
+export { asText } from "./as-text"

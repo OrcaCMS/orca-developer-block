@@ -10,6 +10,6 @@
 
 2. GitHub → repo **Settings → General → Template repository** → enable.
 
-3. Optional description: “Starter for OrcaCMS sandboxed React developer blocks”.
+3. Optional description: “Generic starter for OrcaCMS sandboxed React developer blocks”.
 
-Users: `pnpm install && pnpm dev`, then `pnpm zip` before uploading to Orca.
+Users: `pnpm install && pnpm dev`, edit `src/index.tsx`, then `pnpm zip` before uploading to Orca.
