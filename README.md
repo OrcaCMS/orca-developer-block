@@ -5,6 +5,12 @@ Starter for **OrcaCMS Developer Blocks** — sandboxed React micro-apps you uplo
 Official org: [github.com/OrcaCMS](https://github.com/OrcaCMS)  
 This repo: [github.com/OrcaCMS/orca-developer-block](https://github.com/OrcaCMS/orca-developer-block)
 
+| Doc | Audience |
+|-----|----------|
+| **This README** | Block authors (package format, SDK, packing) |
+| Orca Studio help → **Developer Block Lab** | Site operators (upload, versions, Site Settings backends) |
+| Platform eng: `docs/developer-blocks.md` in the Orca monorepo | Architecture, Sandbox build, threat model |
+
 Use this as a base: clone → edit `src/index.tsx` → `pnpm zip` → upload in **Developer Block Lab**.
 
 ## Quick start
