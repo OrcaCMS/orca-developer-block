@@ -23,7 +23,9 @@ pnpm zip
 # → dist-pack/domain-search-orca-block.zip
 ```
 
-Then in Orca Studio: **Developer Block Lab → Upload block ZIP**.
+Then in Orca Studio (with the target **site** selected): **Developer Block Lab → Upload block ZIP**.
+
+Developer blocks are **site-scoped**. The same ZIP on another site is a separate upload (new block id / versions). There is no shared workspace library in v1 — keep the ZIP and re-upload to copy.
 
 ## What’s in the box
 
@@ -50,10 +52,16 @@ export default defineBlock({
   Component({ heading }) {
     const orca = useOrca()
     // useState, useEffect, … — normal React
-    return <h2>{heading}</h2>
+    return <h2 style={{ fontFamily: "var(--theme-font-heading)" }}>{heading}</h2>
   },
 })
 ```
+
+### Theme + fonts (site Appearance)
+
+With `"context:theme"` in `orca-block.json`, the runtime applies the **current site’s** Appearance as CSS variables (`--primary`, `--theme-font-body`, …) and injects font CSS / a Google Fonts link. Prefer those variables over hard-coded brand colors.
+
+Keep the block root **transparent** so the host page background shows through (the artifact shell already uses a transparent `html`/`body`).
 
 ### Calling *your* backend
 
@@ -99,11 +107,12 @@ Suggested topics: `orcacms`, `react`, `developer-blocks`.
 
 ## Upload checklist
 
+- [ ] Correct **site** selected in Studio (blocks are per site)
 - [ ] `orca-block.json` valid (`schemaVersion: 1`, `runtime: "react"`)
 - [ ] Entry file exists (`src/index.tsx`)
 - [ ] No `node_modules` / lockfiles in the ZIP (`pnpm zip` excludes them)
-- [ ] Permissions match what you call (`actions:execute`, `layout:resize`, …)
-- [ ] Named actions configured in Orca if you use `orca.actions.execute`
+- [ ] Permissions match what you call (`context:theme`, `actions:execute`, `layout:resize`, …)
+- [ ] Named actions configured on **this site** if you use `orca.actions.execute`
 - [ ] Workspace plan has `max_developer_blocks` > 0
 
 ## Docs

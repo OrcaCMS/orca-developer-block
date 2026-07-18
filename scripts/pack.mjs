@@ -49,6 +49,7 @@ const SKIP_DIRS = new Set([
   "scripts",
   ".git",
   ".github",
+  ".cursor",
 ])
 
 function walk(dir, files = []) {

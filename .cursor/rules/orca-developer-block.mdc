@@ -1,0 +1,18 @@
+---
+description: OrcaCMS developer block template conventions
+globs:
+  - src/**/*
+  - orca-block.json
+  - definition.json
+  - styles.css
+alwaysApply: false
+---
+
+# Orca developer block
+
+- Site-scoped block: APIs/actions/theme belong to the current Orca site. Cross-site reuse = re-upload the ZIP.
+- Allowlisted imports only: `react`, `react-dom`, `@orca/blocks`, `clsx`, `zod`.
+- Prefer `var(--theme-font-*)` and semantic colors (`hsl(var(--primary))`) with `context:theme`.
+- Keep root background transparent unless you intentionally draw a card.
+- Pack with `pnpm zip` only (excludes `sdk/`, `preview/`, `.cursor/`, agent docs).
+- Do not bake site fonts into the ZIP; runtime bridge injects Appearance fonts.
