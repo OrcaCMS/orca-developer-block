@@ -49,8 +49,8 @@ export default defineBlock({
       default: null,
     },
     ctaLabel: {
-      type: "button",
-      label: "Button",
+      type: "plaintext",
+      label: "Button label",
       default: "Call API",
     },
   },
@@ -62,7 +62,8 @@ export default defineBlock({
 
     const headingText = asText(heading)
     const bodyText = asText(body)
-    const buttonLabel = asText(ctaLabel) || "Call API"
+    const buttonLabel =
+      (typeof ctaLabel === "string" && ctaLabel.trim()) || asText(ctaLabel) || "Call API"
     const src = mediaSrc(image)
     const alt = typeof image?.alt === "string" ? image.alt : ""
 
@@ -88,6 +89,7 @@ export default defineBlock({
         {src ? <img className="odb-image" src={src} alt={alt} /> : null}
         {headingText ? <h2 className="odb-heading">{headingText}</h2> : null}
         {bodyText ? <p className="odb-body">{bodyText}</p> : null}
+        {/* Sandbox has no allow-forms — never use <form onSubmit> or type="submit". */}
         <button
           className="odb-button"
           type="button"

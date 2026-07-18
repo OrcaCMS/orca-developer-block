@@ -4,7 +4,7 @@ Guidance for AI coding agents working in this template.
 
 ## What this package is
 
-A **generic starter** for site-scoped OrcaCMS Developer Blocks: React micro-apps uploaded as a ZIP, compiled by Orca, and rendered in a sandboxed iframe (`sandbox="allow-scripts"` only).
+A **generic starter** for site-scoped OrcaCMS Developer Blocks: React micro-apps uploaded as a ZIP, compiled by Orca, and rendered in a sandboxed iframe (`sandbox="allow-scripts"` only — **no `allow-forms`**, no `allow-same-origin`).
 
 - Not a product demo — replace `src/index.tsx` props/UI/API calls with the user’s block
 - Block type ids look like `devblock:{uuid}`
@@ -68,14 +68,30 @@ Keep the block root **transparent**. The artifact shell already sets `html, body
 
 Actions and blocks are both site-scoped.
 
-## Studio field props
+## Studio field props (hard rules)
 
-Supported `defineBlock` prop types: `heading`, `paragraph`, `string`, `text`, `number`, `boolean`, `media`, `button`.
+**Supported** `defineBlock` / `definition.json` types (must match a Studio editor):
 
-Prefer `paragraph` (not `text`) for body/subtitle copy. Heading/paragraph values may arrive as objects (`{ text, tag, … }`) — always render with `asText(value)` from `@orca/blocks`.
+- `heading`, `paragraph`, `plaintext`, `number`, `boolean`, `media`
+
+**Never use:**
+
+- `string` or `text` — no floating-panel editor (shows “No editor available…”)
+- `button` — rich CTA editor is not wired for developer-block string labels
+
+For placeholders, input hints, and CTA button titles, use **`plaintext`** (plain string value). Prefer `paragraph` (not `plaintext`) for longer body copy. Heading/paragraph values may arrive as objects (`{ text, tag, … }`) — always render with `asText(value)` from `@orca/blocks`.
 
 - `media`: object with `imageSrc` / `url` (+ `alt`) so site editors can swap files in Studio
-- `button`: Studio has a full button editor; the iframe host currently coerces to the **label string** only
+
+Keep `definition.json` `fields[].type` identical to `defineBlock` `props.*.type`.
+
+## Interactions / forms (hard rules)
+
+Sandbox has **no `allow-forms`**. Native form submit is blocked in Orca (but works in local `pnpm dev`).
+
+- Use `<button type="button" onClick={…}>` for actions
+- For Enter key, use `onKeyDown` on the input and call the same function
+- Do **not** use `<form onSubmit>` or `<button type="submit">`
 
 ## Do not bake fonts into the ZIP
 

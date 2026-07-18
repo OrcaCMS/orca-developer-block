@@ -39,7 +39,7 @@ Developer blocks are **site-scoped**. The same ZIP on another site is a separate
 | `preview/` | Vite preview shell (**not** uploaded) |
 | `scripts/pack.mjs` | Builds the Orca upload ZIP |
 
-The starter includes heading, body, optional image, a button, and a sample `my-api` action call. Replace those with your own fields and logic.
+The starter includes heading, body, optional image, a button label (`plaintext`), and a sample `my-api` action call. Replace those with your own fields and logic.
 
 ## Developing your block
 
@@ -51,13 +51,18 @@ export default defineBlock({
   props: {
     heading: { type: "heading", default: "Hello" },
     body: { type: "paragraph", default: "Supporting copy." },
+    ctaLabel: { type: "plaintext", default: "Call API" },
   },
-  Component({ heading, body }) {
+  Component({ heading, body, ctaLabel }) {
     const orca = useOrca()
     return (
       <>
         <h2 style={{ fontFamily: "var(--theme-font-heading)" }}>{asText(heading)}</h2>
         <p>{asText(body)}</p>
+        {/* Never use <form onSubmit> / type="submit" — sandbox has no allow-forms */}
+        <button type="button" onClick={() => void orca.actions.execute("my-api", {})}>
+          {typeof ctaLabel === "string" ? ctaLabel : "Call API"}
+        </button>
       </>
     )
   },
@@ -68,16 +73,32 @@ Also rename the block in `orca-block.json` and `definition.json` so the packed Z
 
 ### Studio prop types
 
+Use only types that have a Studio floating-panel editor. Keep `definition.json` and `defineBlock({ props })` in sync.
+
 | Type | Studio editor | Value in your block |
 |------|---------------|---------------------|
 | `heading` | Heading | Prefer `asText(value)` |
 | `paragraph` | Body / rich text | Prefer `asText(value)` |
-| `string` / `text` | Single-line text | string |
+| `plaintext` | Single-line text | string — use for placeholders, CTA labels, short copy |
 | `number` / `boolean` | Number / toggle | number / boolean |
-| `media` | Media picker | object — `imageSrc` or `url`, plus `alt` (HTTPS images allowed by artifact CSP) |
-| `button` | Button (label + link) | Host currently passes the **label string** only |
+| `media` | Media picker | object — `imageSrc` or `url`, plus `alt` |
+
+**Do not use** these in developer-block `definition.json` / props:
+
+| Avoid | Why |
+|-------|-----|
+| `string`, `text` | No Studio editor (panel shows “No editor available…”) |
+| `button` | Built-in rich CTA editor (`{ text, url, style, … }`) is not wired for developer-block string labels — use `plaintext` for the label instead |
 
 After Orca platform updates that change the compile bootstrap or artifact CSP, **re-pack and re-upload** the block so the new shell/bootstrap is baked into the artifact.
+
+### Interactions / forms (sandbox)
+
+The block runs in an iframe with `sandbox="allow-scripts"` only — **no `allow-forms`**.
+
+- Use `<button type="button" onClick={…}>` for actions
+- For Enter-to-submit UX, handle `onKeyDown` on the input and call your function directly
+- Do **not** rely on `<form onSubmit>` or `<button type="submit">` — those work in local `pnpm dev` but are blocked when uploaded to Orca
 
 ### Theme + fonts (site Appearance)
 
@@ -128,6 +149,8 @@ Suggested topics: `orcacms`, `react`, `developer-blocks`.
 - [ ] Correct **site** selected in Studio (blocks are per site)
 - [ ] `orca-block.json` valid (`schemaVersion: 1`, `runtime: "react"`)
 - [ ] Entry file exists (`src/index.tsx`)
+- [ ] Field types are Studio-supported (`plaintext` not `string` / `button` for labels)
+- [ ] No form `submit` — actions use `type="button"` + `onClick`
 - [ ] No `node_modules` / lockfiles in the ZIP (`pnpm zip` excludes them)
 - [ ] Permissions match what you call (`context:theme`, `actions:execute`, `layout:resize`, …)
 - [ ] Named actions configured on **this site** if you use `orca.actions.execute`

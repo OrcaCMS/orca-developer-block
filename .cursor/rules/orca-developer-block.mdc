@@ -16,3 +16,5 @@ alwaysApply: false
 - Keep root background transparent unless you intentionally draw a card.
 - Pack with `pnpm zip` only (excludes `sdk/`, `preview/`, `.cursor/`, agent docs).
 - Do not bake site fonts into the ZIP; runtime bridge injects Appearance fonts.
+- Studio field types: only `heading`, `paragraph`, `plaintext`, `number`, `boolean`, `media`. Never `string`, `text`, or `button` — use `plaintext` for CTA/placeholder labels.
+- Sandbox has no `allow-forms`: use `type="button"` + `onClick` / input `onKeyDown`. Never `<form onSubmit>` or `type="submit"`.

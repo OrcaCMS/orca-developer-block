@@ -1,7 +1,8 @@
 import type { ComponentType } from "react"
 
+/** Studio-supported field types only (must match a floating-panel editor). */
 export type BlockPropSpec = {
-  type: "string" | "text" | "heading" | "paragraph" | "number" | "boolean" | "media" | "button"
+  type: "heading" | "paragraph" | "plaintext" | "number" | "boolean" | "media"
   label?: string
   default?: unknown
   defaultValue?: unknown

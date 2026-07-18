@@ -23,8 +23,8 @@
     },
     {
       "name": "ctaLabel",
-      "type": "button",
-      "label": "Button",
+      "type": "plaintext",
+      "label": "Button label",
       "defaultValue": "Call API"
     }
   ],
