@@ -74,8 +74,10 @@ Also rename the block in `orca-block.json` and `definition.json` so the packed Z
 | `paragraph` | Body / rich text | Prefer `asText(value)` |
 | `string` / `text` | Single-line text | string |
 | `number` / `boolean` | Number / toggle | number / boolean |
-| `media` | Media picker | object — `imageSrc` or `url`, plus `alt` |
+| `media` | Media picker | object — `imageSrc` or `url`, plus `alt` (HTTPS images allowed by artifact CSP) |
 | `button` | Button (label + link) | Host currently passes the **label string** only |
+
+After Orca platform updates that change the compile bootstrap or artifact CSP, **re-pack and re-upload** the block so the new shell/bootstrap is baked into the artifact.
 
 ### Theme + fonts (site Appearance)
 
